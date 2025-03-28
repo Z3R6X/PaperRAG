@@ -29,7 +29,7 @@ conda activate vllm
     ```
     vllm serve meta-llama/Llama-3.1-8B-Instruct --enable-auto-tool-choice --tool-call-parser llama3_json --chat-template tool_templates/tool_chat_template_llama3.1_json.jinja --max-model-len 40000
     ```
-- Llama-3.1-70B-Instruct (on 8 GPUs)
+- Llama-3.1-70B-Instruct (on 8 GPUs):
     ```
     vllm serve meta-llama/Llama-3.1-70B-Instruct --enable-auto-tool-choice --tool-call-parser llama3_json --chat-template tool_templates/tool_chat_template_llama3.1_json.jinja --max-model-len 40000 --tensor-parallel-size 8
     ```
@@ -51,23 +51,23 @@ Arguments:
 - `--verbose`: Set for verbose RAG process.
 
 ## Workflow
-### Without forcing RAG:
+### Without forcing RAG
 Depending on the description of the tool description and the user question the LLM decides if RAG should be used. If not, a basic answer is generated without RAG.
 
 ![RAG Choice Workflow](imgs/graph_rag_choice.png)
 
-### With forcing RAG:
+### With forcing RAG
 RAG is always used independent of the user question.
 
 ![Force RAG Workflow](imgs/graph_force_rag.png)
 
 ## Dense and Sparse Retriever
-**On the first run**:
+### On the first run
 - The paper PDFs in `pdf_dir` are loaded as Documents, a LLM is used to extract metadata and the results are storerd in `data_dir`. 
 - The papers are chunked and stored as dense vectorstores and sparse chunks in `data_dir`. 
 - The dense vectorstores and sparse chunks are used by the dense and sparse retrievers in the RAG workflow.
 
-**On the following runs**:
+### On the following runs
 - The dense vectorstore and the sparse chunks are loaded from `data_dir`.
 - The dense vectorstores and sparse chunks are used by the dense and sparse retrievers in the RAG workflow.
 
